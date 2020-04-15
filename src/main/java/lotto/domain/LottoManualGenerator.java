@@ -1,40 +1,33 @@
 package lotto.domain;
 
+import lotto.view.InputView;
+
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
-import java.util.TreeSet;
-import java.util.stream.Collectors;
+import java.util.Objects;
 
 public class LottoManualGenerator implements GenerateStrategy {
-    private static final String NOT_NUMBER = "숫자가 아닙니다. ";
-    private final List<String> parsedText;
-    private final Set<LottoNumber> numbers;
+    private final List<LottoNumber> parsedNumber;
 
-    public LottoManualGenerator(final List<String> parsedText) {
-        this.parsedText = new ArrayList<>(parsedText);
-        this.numbers = new TreeSet<>();
+    public LottoManualGenerator(final List<LottoNumber> parsedNumber) {
+        this.parsedNumber = new ArrayList<>(parsedNumber);
     }
 
     @Override
     public List<LottoNumber> generateNumbers() {
-        return convertToLottoNumbers(parsedText);
+        return parsedNumber;
     }
 
-    private List<LottoNumber> convertToLottoNumbers(List<String> text) {
-        return text.stream()
-                .map(this::parseToInt)
-                .map(LottoNumber::of)
-                .collect(Collectors.toList());
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof LottoManualGenerator)) return false;
+        LottoManualGenerator that = (LottoManualGenerator) o;
+        return Objects.equals(parsedNumber, that.parsedNumber);
     }
 
-    private int parseToInt(String inputText) {
-        try {
-            return (Integer.parseInt(inputText));
-        } catch (Exception e) {
-            throw new NumberFormatException(NOT_NUMBER + e.getMessage());
-        }
+    @Override
+    public int hashCode() {
+        return Objects.hash(parsedNumber);
     }
-
-
 }

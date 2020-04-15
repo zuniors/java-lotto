@@ -1,9 +1,6 @@
 package lotto.view;
 
-import lotto.domain.GameResult;
-import lotto.domain.Lotto;
-import lotto.domain.Money;
-import lotto.domain.Prize;
+import lotto.domain.*;
 
 import java.text.DecimalFormat;
 import java.util.List;
@@ -18,27 +15,28 @@ public class OutputView {
     public static final String SECOND_PRIZE_PRINT = "%d개 일치 보너스 볼 일치(%d원)- %d개";
     private static DecimalFormat decimalFormat = new DecimalFormat("#.##");
 
-    public void showInputResult(final List<Lotto> lottos, Money money) {
+    public void showResult(GameResult gameResult) {
+        System.out.println(WINNING_RESULT);
+        System.out.println(DASH);
+        for (Prize prize : Prize.values()) {
+            showGameResult(prize, gameResult.getResult());
+        }
+    }
+
+    public void showInputResult(final List<Lotto> lottos, Money allLottoCounts, ManualCount manualConunts) {
+        int autoLottoCounts =  allLottoCounts.getLottoCount() - manualConunts.getManualCounts();
         StringBuilder sb = new StringBuilder();
-        sb.append(System.lineSeparator());
-        sb.append(money.getLottoCount() + BUY_LOTTOS);
+
+        sb.append("수동으로 " + manualConunts.getManualCounts() + "장, 자동으로 " + autoLottoCounts + "개를 구매했습니다.");
         sb.append(System.lineSeparator());
 
         for (Lotto lotto : lottos) {
             sb.append(lotto);
             sb.append(System.lineSeparator());
         }
-
         System.out.println(sb.toString());
     }
 
-    public void showResult(GameResult gameResult) {
-        System.out.println(WINNING_RESULT);
-        System.out.println(DASH);
-        for (Prize prize : Prize.values()) {
-            showGameResult(prize, gameResult);
-        }
-    }
 
     /**
      * 3개 일치 (5000원)- 1개
@@ -70,7 +68,9 @@ public class OutputView {
     }
 
     public void showProfit(final Money purchasedAmount, final GameResult gameResult) {
-        System.out.println(TOTAL_PROPIT + decimalFormat.format(gameResult.getProfit(purchasedAmount)) + PROPIT_END);
+        GameResult result = gameResult.getResult();
+
+        System.out.println(TOTAL_PROPIT + decimalFormat.format(result.getProfit(purchasedAmount)) + PROPIT_END);
     }
 
 
