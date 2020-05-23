@@ -7,3 +7,14 @@
 
 ## 온라인 코드 리뷰 과정
 * [텍스트와 이미지로 살펴보는 온라인 코드 리뷰 과정](https://github.com/next-step/nextstep-docs/tree/master/codereview)
+
+---
+
+### 1단계 - 문자열 덧셈 계산기
+- [기능 요구사항 목록](/contents/step1.md)
+
+### 2단계 - 로또 (자동)
+- [기능 요구사항 목록](/contents/step2.md)
+
+### 3단계 - 로또 (2등)
+- [기능 요구사항 목록](/contents/step3.md)
